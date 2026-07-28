@@ -35,22 +35,22 @@ const DarkModeToggle: React.FC = ({}) => {
             className="icon-control-container"
             id="prevent-click"
         >
-            <motion.img
-                id="prevent-click"
-                src={isDark ? '🌙' : '☀️'}
-                alt={isDark ? 'moon' : 'sun'}
-                style={{
-                    opacity: isActive ? 0.2 : isHovering ? 0.8 : 1,
-                    fontSize: window.innerWidth < 768 ? 8 : 10,
-                    width: window.innerWidth < 768 ? 8 : 10,
-                    height: 'auto',
-                    filter: 'grayscale(1) brightness(2)',
-                }}
-                animate={
-                    isActive ? 'active' : isHovering ? 'hovering' : 'default'
-                }
-                variants={iconVars}
-            />
+            <motion.span
+    id="prevent-click"
+    style={{
+        opacity: isActive ? 0.2 : isHovering ? 0.8 : 1,
+        fontSize: window.innerWidth < 768 ? 10 : 14,
+        color: 'white',
+        userSelect: 'none',
+        lineHeight: 1,
+    }}
+    animate={
+        isActive ? 'active' : isHovering ? 'hovering' : 'default'
+    }
+    variants={iconVars}
+>
+    {isDark ? '🌙' : '☀️'}
+</motion.span>
         </div>
     );
 };
