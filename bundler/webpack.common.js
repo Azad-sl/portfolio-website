@@ -34,11 +34,18 @@ module.exports = {
                 test: /\.(html)$/,
                 use: ['html-loader'],
             },
-            {
-                test: /\.ts?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
-            },
+         {
+    test: /\.ts?$/,
+    use: [
+        {
+            loader: 'ts-loader',
+            options: {
+                transpileOnly: true
+            }
+        }
+    ],
+    exclude: /node_modules/,
+},
             // JS
             {
                 test: /\.tsx$/,
