@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FreeCamToggle from './FreeCamToggle';
 import MuteToggle from './MuteToggle';
+import DarkModeToggle from './DarkModeToggle';
  
 interface InfoOverlayProps {
     visible: boolean;
@@ -20,6 +21,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     const [textDone, setTextDone] = useState(false);
     const [volumeVisible, setVolumeVisible] = useState(false);
     const [freeCamVisible, setFreeCamVisible] = useState(false);
+    const [darkModeVisible, setDarkModeVisible] = useState(false);
  
     const typeText = (
         i: number,
@@ -77,16 +79,19 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
         visRef.current = visible;
     }, [visible]);
  
-    useEffect(() => {
-        if (textDone) {
+  useEffect(() => {
+    if (textDone) {
+        setTimeout(() => {
+            setVolumeVisible(true);
             setTimeout(() => {
-                setVolumeVisible(true);
+                setFreeCamVisible(true);
                 setTimeout(() => {
-                    setFreeCamVisible(true);
+                    setDarkModeVisible(true);
                 }, 250);
             }, 250);
-        }
-    }, [textDone]);
+        }, 250);
+    }
+}, [textDone]);
  
     useEffect(() => {
         window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
@@ -137,6 +142,11 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                             <FreeCamToggle />
                         </div>
                     )}
+                 {darkModeVisible && (
+    <div style={styles.lastRowChild}>
+        <DarkModeToggle />
+    </div>
+)}
                 </div>
             )}
         </div>
