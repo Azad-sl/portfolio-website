@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FreeCamToggle from './FreeCamToggle';
 import MuteToggle from './MuteToggle';
-
+ 
 interface InfoOverlayProps {
     visible: boolean;
 }
-
-const NAME_TEXT = 'Henry Heffernan';
-const TITLE_TEXT = 'Software Engineer';
+ 
+const NAME_TEXT = '你的名字';
+const TITLE_TEXT = '你的职位';
 const MULTIPLIER = 1;
-
+ 
 const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     const visRef = useRef(visible);
     const [nameText, setNameText] = useState('');
@@ -20,7 +20,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     const [textDone, setTextDone] = useState(false);
     const [volumeVisible, setVolumeVisible] = useState(false);
     const [freeCamVisible, setFreeCamVisible] = useState(false);
-
+ 
     const typeText = (
         i: number,
         curText: string,
@@ -39,7 +39,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                         { type: 'keydown', key: `_AUTO_${text[i]}` },
                         '*'
                     );
-
+ 
                 setText(curText + text[i]);
                 typeText(
                     i + 1,
@@ -49,12 +49,12 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                     callback,
                     refOverride
                 );
-            }, Math.random() * 50 + 50 * MULTIPLIER);
+            }, Math.random() * 80 + 80 * MULTIPLIER);
         } else {
             callback();
         }
     };
-
+ 
     useEffect(() => {
         if (visible && nameText == '') {
             setTimeout(() => {
@@ -76,7 +76,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
         }
         visRef.current = visible;
     }, [visible]);
-
+ 
     useEffect(() => {
         if (textDone) {
             setTimeout(() => {
@@ -87,23 +87,23 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
             }, 250);
         }
     }, [textDone]);
-
+ 
     useEffect(() => {
         window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
     }, [freeCamVisible, volumeVisible]);
-
+ 
     useEffect(() => {
         const interval = setInterval(() => {
             setTime(new Date().toLocaleTimeString());
         }, 1000);
         return () => clearInterval(interval);
     }, []);
-
+ 
     useEffect(() => {
         timeRef.current = time;
         textDone && setTimeText(time);
     }, [time]);
-
+ 
     return (
         <div style={styles.wrapper}>
             {nameText !== '' && (
@@ -142,7 +142,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
         </div>
     );
 };
-
+ 
 const styles: StyleSheetCSS = {
     container: {
         background: 'black',
@@ -163,8 +163,6 @@ const styles: StyleSheetCSS = {
         justifyContent: 'flex-start',
     },
     blinkingContainer: {
-        // width: 100,
-        // height: 100,
         marginLeft: 8,
         paddingBottom: 2,
         paddingRight: 4,
@@ -177,5 +175,5 @@ const styles: StyleSheetCSS = {
         marginRight: 4,
     },
 };
-
+ 
 export default InfoOverlay;
