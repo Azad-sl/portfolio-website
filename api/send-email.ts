@@ -21,7 +21,7 @@ export default async function handler(req: any, res: any) {
         await transporter.verify();
         await transporter.sendMail({
             from: `"${name}" <${process.env.FOLIO_EMAIL}>`,
-            to: '你的邮箱@gmail.com',  // ← 改成你自己的邮箱
+            to: 'liushulin@azad.asia',  // ← 改成你自己的邮箱
             subject: `${name} <${email}> ${
                 company ? `from ${company}` : ''
             } submitted a contact form`,
