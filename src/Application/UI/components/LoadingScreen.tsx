@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import eventBus from '../EventBus';
-
+ 
 type LoadingProps = {};
-
+ 
 const LoadingScreen: React.FC<LoadingProps> = () => {
     const [progress, setProgress] = useState(0);
     const [toLoad, setToLoad] = useState(0);
@@ -12,7 +12,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [startPopupOpacity, setStartPopupOpacity] = useState(0);
     const [firefoxPopupOpacity, setFirefoxPopupOpacity] = useState(0);
     const [webGLErrorOpacity, setWebGLErrorOpacity] = useState(0);
-
+ 
     const [showBiosInfo, setShowBiosInfo] = useState(false);
     const [showLoadingResources, setShowLoadingResources] = useState(false);
     const [doneLoading, setDoneLoading] = useState(false);
@@ -20,7 +20,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
     const [mobileWarning, setMobileWarning] = useState(window.innerWidth < 768);
-
+ 
     const onResize = () => {
         if (window.innerWidth < 768) {
             setMobileWarning(true);
@@ -28,9 +28,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             setMobileWarning(false);
         }
     };
-
+ 
     window.addEventListener('resize', onResize);
-
+ 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('debug')) {
@@ -41,14 +41,14 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             setShowBiosInfo(true);
         }
     }, []);
-
+ 
     useEffect(() => {
         eventBus.on('loadedSource', (data) => {
             setProgress(data.progress);
             setToLoad(data.toLoad);
             setLoaded(data.loaded);
             resources.push(
-                `Loaded ${data.sourceName}${getSpace(
+                `已加载 ${data.sourceName}${getSpace(
                     data.sourceName
                 )} ... ${Math.round(data.progress * 100)}%`
             );
@@ -57,16 +57,16 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             }
         });
     }, []);
-
+ 
     useEffect(() => {
         setShowLoadingResources(true);
         setCounter(counter + 1);
     }, [loaded]);
-
+ 
     useEffect(() => {
         if (progress >= 1 && !webGLError) {
             setDoneLoading(true);
-
+ 
             setTimeout(() => {
                 setLoadingTextOpacity(0);
                 setTimeout(() => {
@@ -75,7 +75,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             }, 1000);
         }
     }, [progress]);
-
+ 
     useEffect(() => {
         if (webGLError) {
             setTimeout(() => {
@@ -83,7 +83,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             }, 500);
         }
     }, [webGLError]);
-
+ 
     const start = useCallback(() => {
         setLoadingOverlayOpacity(0);
         eventBus.dispatch('loadingScreenDone', {});
@@ -92,13 +92,13 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             ui.style.pointerEvents = 'none';
         }
     }, []);
-
+ 
     const getSpace = (sourceName: string) => {
         let spaces = '';
         for (let i = 0; i < 24 - sourceName.length; i++) spaces += '\xa0';
         return spaces;
     };
-
+ 
     const getCurrentDate = () => {
         const date = new Date();
         const month = date.getMonth() + 1;
@@ -109,10 +109,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         const dayFormatted = day < 10 ? `0${day}` : day;
         return `${monthFormatted}/${dayFormatted}/${year}`;
     };
-
+ 
     const detectWebGLContext = () => {
         var canvas = document.createElement('canvas');
-
+ 
         // Get WebGLRenderingContext from canvas element.
         var gl =
             canvas.getContext('webgl') ||
@@ -123,7 +123,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         }
         return false;
     };
-
+ 
     return (
         <div
             style={Object.assign({}, styles.overlay, {
@@ -149,38 +149,38 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.logoContainer}>
                             <div>
                                 <p style={styles.green}>
-                                    <b>Heffernan,</b>{' '}
+                                    <b>你的名字</b>{' '}
                                 </p>
                                 <p style={styles.green}>
-                                    <b>Henry Inc.</b>
+                                    <b>有限公司</b>
                                 </p>
                             </div>
                         </div>
                         <div style={styles.headerInfo}>
-                            <p>Released: 01/13/2000</p>
-                            <p>HHBIOS (C)2000 Heffernan Henry Inc.,</p>
+                            <p>发布日期: 01/13/2000</p>
+                            <p>BIOS (C)2000 你的名字 有限公司,</p>
                         </div>
                     </div>
                     <div style={styles.body} className="loading-screen-body">
-                        <p>HSP S13 2000-2022 Special UC131S</p>
+                        <p>HSP S13 2000-2022 特殊版 UC131S</p>
                         <div style={styles.spacer} />
                         {showBiosInfo && (
                             <>
-                                <p>HSP Showcase(tm) XX 113</p>
-                                <p>Checking RAM : {14000} OK</p>
+                                <p>HSP 展示版(tm) XX 113</p>
+                                <p>内存检查: 正常</p>
                                 <div style={styles.spacer} />
                                 <div style={styles.spacer} />
                                 {showLoadingResources ? (
                                     progress == 1 ? (
-                                        <p>FINISHED LOADING RESOURCES</p>
+                                        <p>资源加载完成</p>
                                     ) : (
                                         <p className="loading">
-                                            LOADING RESOURCES ({loaded}/
+                                            正在加载资源 ({loaded}/
                                             {toLoad === 0 ? '-' : toLoad})
                                         </p>
                                     )
                                 ) : (
-                                    <p className="loading">WAIT</p>
+                                    <p className="loading">等待</p>
                                 )}
                             </>
                         )}
@@ -193,9 +193,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.spacer} />
                         {showLoadingResources && doneLoading && (
                             <p>
-                                All Content Loaded, launching{' '}
+                                所有内容加载完毕，正在启动{' '}
                                 <b style={styles.green}>
-                                    'Henry Heffernan Portfolio Showcase'
+                                    '你的名字 作品展示'
                                 </b>{' '}
                                 V1.0
                             </p>
@@ -208,8 +208,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         className="loading-screen-footer"
                     >
                         <p>
-                            Press <b>DEL</b> to enter SETUP , <b>ESC</b> to skip
-                            memory test
+                            按 <b>DEL</b> 进入设置, 按 <b>ESC</b> 跳过内存检测
                         </p>
                         <p>{getCurrentDate()}</p>
                     </div>
@@ -221,29 +220,23 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 })}
             >
                 <div style={styles.startPopup}>
-                    {/* <p style={styles.red}>
-                        <b>THIS SITE IS CURRENTLY A W.I.P.</b>
-                    </p>
-                    <p>But do enjoy what I have done so far :)</p>
-                    <div style={styles.spacer} />
-                    <div style={styles.spacer} /> */}
-                    <p>Henry Heffernan Portfolio Showcase 2022</p>
+                    <p>你的名字 作品展示 2022</p>
                     {mobileWarning && (
                         <>
                             <br />
                             <b>
                                 <p style={styles.warning}>
-                                    WARNING: This experience is best viewed on
+                                    警告: 此体验最佳浏览方式为
                                 </p>
                                 <p style={styles.warning}>
-                                    a desktop or laptop computer.
+                                    桌面电脑或笔记本电脑。
                                 </p>
                             </b>
                             <br />
                         </>
                     )}
                     <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Click start to begin{'\xa0'}</p>
+                        <p>点击开始{'\xa0'}</p>
                         <span className="blinking-cursor" />
                     </div>
                     <div
@@ -255,7 +248,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         }}
                     >
                         <div className="bios-start-button" onClick={start}>
-                            <p>START</p>
+                            <p>开始</p>
                         </div>
                     </div>
                 </div>
@@ -268,16 +261,14 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 >
                     <div style={styles.startPopup}>
                         <p>
-                            <b style={{ color: 'red' }}>CRITICAL ERROR:</b> No
-                            WebGL Detected
+                            <b style={{ color: 'red' }}>严重错误:</b> 未检测到 WebGL
                         </p>
                         <div style={styles.spacer} />
                         <div style={styles.spacer} />
-
-                        <p>WebGL is required to run this site.</p>
+ 
+                        <p>本站点需要 WebGL 支持。</p>
                         <p>
-                            Please enable it or switch to a browser which
-                            supports WebGL
+                            请启用 WebGL 或切换到支持 WebGL 的浏览器
                         </p>
                     </div>
                 </div>
@@ -285,7 +276,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         </div>
     );
 };
-
+ 
 const styles: StyleSheetCSS = {
     overlay: {
         backgroundColor: 'black',
@@ -297,18 +288,18 @@ const styles: StyleSheetCSS = {
         WebkitTransition: 'opacity 0.2s, transform 0.2s',
         OTransition: 'opacity 0.2s, transform 0.2s',
         msTransition: 'opacity 0.2s, transform 0.2s',
-
+ 
         transitionTimingFunction: 'ease-in-out',
         MozTransitionTimingFunction: 'ease-in-out',
         WebkitTransitionTimingFunction: 'ease-in-out',
         OTransitionTimingFunction: 'ease-in-out',
         msTransitionTimingFunction: 'ease-in-out',
-
+ 
         boxSizing: 'border-box',
         fontSize: 16,
         letterSpacing: 0.8,
     },
-
+ 
     spacer: {
         height: 16,
     },
@@ -349,7 +340,6 @@ const styles: StyleSheetCSS = {
         flexDirection: 'column',
         justifyContent: 'center',
         maxWidth: 500,
-        // alignItems: 'center',
     },
     headerInfo: {
         marginLeft: 64,
@@ -358,7 +348,6 @@ const styles: StyleSheetCSS = {
         color: '#00ff00',
     },
     link: {
-        // textDecoration: 'none',
         color: '#4598ff',
         cursor: 'pointer',
     },
@@ -386,16 +375,11 @@ const styles: StyleSheetCSS = {
         paddingBottom: 32,
         flexDirection: 'column',
     },
-    logoImage: {
-        width: 64,
-        height: 42,
-        imageRendering: 'pixelated',
-        marginRight: 16,
+    green: {
+        color: '#00ff00',
     },
     footer: {
         boxSizing: 'border-box',
         width: '100%',
     },
 };
-
-export default LoadingScreen;
