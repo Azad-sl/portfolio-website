@@ -8,6 +8,7 @@ import CoffeeSteam from './CoffeeSteam';
 import Cursor from './Cursor';
 import Hitboxes from './Hitboxes';
 import AudioManager from '../Audio/AudioManager';
+import UIEventBus from '../UI/EventBus';
 export default class World {
     application: Application;
     scene: THREE.Scene;
@@ -35,6 +36,17 @@ export default class World {
             this.monitorScreen = new MonitorScreen();
             this.coffeeSteam = new CoffeeSteam();
             this.audioManager = new AudioManager();
+            // 明暗模式切换
+UIEventBus.on('darkModeToggle', (isDark: boolean) => {
+    this.scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+            if (child.material instanceof THREE.MeshBasicMaterial) {
+                child.material.color.set(isDark ? 0x1a1a2e : 0xffffff);
+                child.material.needsUpdate = true;
+            }
+        }
+    });
+});
             // const hb = new Hitboxes();
             // this.cursor = new Cursor();
         });
