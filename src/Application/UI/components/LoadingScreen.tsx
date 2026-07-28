@@ -149,7 +149,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.logoContainer}>
                             <div>
                                 <p style={styles.green}>
-                                    <b>你的名字</b>{' '}
+                                    <b>ponghing</b>{' '}
                                 </p>
                                 <p style={styles.green}>
                                     <b>有限公司</b>
@@ -158,7 +158,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         </div>
                         <div style={styles.headerInfo}>
                             <p>发布日期: 01/13/2000</p>
-                            <p>BIOS (C)2000 你的名字 有限公司,</p>
+                            <p>BIOS (C)2000 ponghing 有限公司,</p>
                         </div>
                     </div>
                     <div style={styles.body} className="loading-screen-body">
@@ -195,7 +195,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <p>
                                 所有内容加载完毕，正在启动{' '}
                                 <b style={styles.green}>
-                                    '你的名字 作品展示'
+                                    'ponghing 作品展示'
                                 </b>{' '}
                                 V1.0
                             </p>
@@ -220,7 +220,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 })}
             >
                 <div style={styles.startPopup}>
-                    <p>你的名字 作品展示 2022</p>
+                    <p>ponghing 作品展示 2022</p>
                     {mobileWarning && (
                         <>
                             <br />
